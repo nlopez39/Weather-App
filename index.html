@@ -8,36 +8,84 @@
     </head>
 
     <body>
-        <div class="header">
-            <header>Weather DashBoard</header>
-        </div>
-        <div class="container">
-        <div class="row">
-        <div class="col-6 border">
-            <h1>Search for a City</h1>
+        <div class="container-fluid ">
+            <h1 class="display-4 text-center mb-4 border">Weather Dashboard</h1>
+        </div> 
+        <div class="container-fluid">
+        <div class="row ms-1 me-1">
+        <div class="col-3 me-1 border">
+            <h2>Search for a City:</h2>
                 <form>
                 <input type="search-bar" name="search-bar" id="search-bar">
-                <button id="search-btn">Search</button>
             </form>
+            <button id="search-btn">Search</button>
         </div>
-    <div class="col-6">
+    <div class="col mb-4 border">
         <h1>Atlanta (9/13/2022)</h1>
-        <ul>
-            <li>Temp: 76F</li>
-            <li>Wind: 8.43 MPH</li>
-            <li>Humidity: 44%</li>
+        <ul class="list-group list-unstyled">
+            <li class="mb-3">Temp: 76F</li>
+            <li class="mb-3">Wind: 8.43 MPH</li>
+            <li class="mb-3">Humidity: 44%</li>
         </ul>
     </div>
-    <div class="col">
+    </div>
+    <div class="row justify-content-end ms-1 me-1">
+    <div class="col-9">
         <h1>5-Day Forecast:</h1>
-        <ul>
-            <li>Temp: </li>
-            <li>Wind: </li>
-            <li>Humidity:</li>
-        </ul>
+        <div class="row ">
+            <div class="col me-4 border">
+                <ul class="list-unstyled">
+                    <li class="mt-2">Date: </li>
+                    <li>Temp: </li>
+                    <li>Wind: </li>
+                    <li>Humidity:</li>
+                </ul>
+
+            </div>
+            <div class="col me-4 border">
+                <ul class="list-unstyled">
+                    <li class="mt-2">Date: </li>
+                    <li>Temp: </li>
+                    <li>Wind: </li>
+                    <li>Humidity:</li>
+                </ul>
+
+            </div>
+            <div class="col me-4  border">
+                <ul class="list-unstyled">
+                    <li class="mt-2">Date: </li>
+                    <li>Temp: </li>
+                    <li>Wind: </li>
+                    <li>Humidity:</li>
+                </ul>
+
+            </div>
+            <div class="col me-4 border">
+                <ul class="list-unstyled">
+                    <li class="mt-2"> Date: </li>
+                    <li>Temp: </li>
+                    <li>Wind: </li>
+                    <li>Humidity:</li>
+                </ul>
+
+            </div>
+            <div class="col me-4 border">
+                <ul class="list-unstyled">
+                    <li class="mt-2">Date: </li>
+                    <li>Temp: </li>
+                    <li>Wind: </li>
+                    <li>Humidity:</li>
+                </ul>
+
+            </div>
+        </div>
+        
     </div>
 
     </div>
+    
+
+    
 
         </div>
         
