@@ -104,39 +104,53 @@ searchBtn.addEventListener("click", function () {
 listButtonsContainer.addEventListener("click", function (event) {
   var clickedElement = event.target;
   if (clickedElement.tagName === "BUTTON") {
+    var j = 0;
     for (var i = 0; i < storedForecastData.length; i++) {
-      if (storedForecastData[i + 1] || i === storedForecastData.length - 1) {
-        if (storedForecastData[i].name == clickedElement.textContent) {
-          //if its the city the user clicked in history then update the HTML TAGS
-          var nameContainer1 = document.querySelector(".col h1");
-          if (nameContainer1) {
-            nameContainer1.textContent = storedForecastData[i].name;
-          }
-          var forecastContainer = document.querySelectorAll(".forecast")[i];
-
-          if (forecastContainer) {
-            var dateContainer =
-              forecastContainer.querySelector("ul li:nth-child(1)");
-            dateContainer.textContent = "Date: " + storedForecastData[i].date;
-            var tempContainer =
-              forecastContainer.querySelector("ul li:nth-child(3)");
-            tempContainer.textContent =
-              "Temp: " + storedForecastData[i].temperature1 + "°F";
-            var windContainer =
-              forecastContainer.querySelector("ul li:nth-child(4)");
-            windContainer.textContent =
-              "Wind: " + storedForecastData[i].wind + " MPH";
-            var humContainer =
-              forecastContainer.querySelector("ul li:nth-child(5)");
-            humContainer.textContent =
-              "Humidity: " + storedForecastData[i].humidity + "%";
-
-            console.log("This is the id  " + clickedElement.textContent);
-          } else {
-            console.log("Somethign else");
-          }
-        }
+      if (j == 6) {
+        j = 0;
       }
+      if (storedForecastData[i].name == clickedElement.textContent) {
+        //if its the city the user clicked in history then update the HTML TAGS
+        var nameContainer1 = document.querySelector(".col h1");
+
+        //changes the name header
+        if (nameContainer1) {
+          //checkmark
+          nameContainer1.textContent = storedForecastData[i].name;
+        }
+
+        //pulls all the forecast containers
+        var forecastContainer = document.querySelectorAll(".forecast")[j];
+
+        console.log("This is the i index: " + i);
+        console.log("this is the j index: " + j);
+        //checks if the forecast containers exist and if they do then change each to the corresponing
+        //clicked city button
+        if (forecastContainer) {
+          console.log("forecast containter exists /Roman/");
+          var dateContainer =
+            forecastContainer.querySelector("ul li:nth-child(1)");
+          dateContainer.textContent = "Date: " + storedForecastData[i].date;
+          var tempContainer =
+            forecastContainer.querySelector("ul li:nth-child(3)");
+          tempContainer.textContent =
+            "Temp: " + storedForecastData[i].temperature1 + "°F";
+          var windContainer =
+            forecastContainer.querySelector("ul li:nth-child(4)");
+          windContainer.textContent =
+            "Wind: " + storedForecastData[i].wind + " MPH";
+          var humContainer =
+            forecastContainer.querySelector("ul li:nth-child(5)");
+          humContainer.textContent =
+            "Humidity: " + storedForecastData[i].humidity + "%";
+
+          console.log("This is the id  " + clickedElement.textContent);
+        }
+      } else {
+        console.log("Somethign else");
+      }
+      //increment j
+      j++;
     }
   }
 });
