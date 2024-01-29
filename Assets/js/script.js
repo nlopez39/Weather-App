@@ -64,8 +64,10 @@ searchBtn.addEventListener("click", function () {
     //pull the data and loop through it
     forecastData.forEach(function (forecast, index) {
       createHistory.setAttribute("id", forecast.name);
+      createHistory.setAttribute("class", "mb-2");
+
       createHistory.textContent = forecast.name;
-      var nameContainer1 = document.querySelector(".col h1");
+      var nameContainer1 = document.querySelector(".forecast-h1");
       if (nameContainer1) {
         nameContainer1.textContent = forecast.name;
       }

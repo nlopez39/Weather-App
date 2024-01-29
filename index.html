@@ -13,19 +13,22 @@
         </div> 
         <div class="container-fluid">
         <div class="row ms-1 me-1">
-        <div class="search-container col-3 me-1 border">
+        <div class="search-container col-3  border "style="display: flex; flex-direction:column">
             <h2>Search for a City:</h2>
                 <form id="form">
-                <input type="search-bar" name="search-bar" id="search-bar">
+                <input type="search-bar" name="search-bar" id="search-bar" class="w-100" >
             </form>
-            <button id="search-btn">Search</button>
-            <ul class="list-buttons">
+            <button id="search-btn" class="mb-4">Search</button>
+            <ul class="list-buttons list-unstyled" style="display: flex; flex-direction:column; ">
     
             </ul>
       
         </div>
-    <div class="forecast col mb-4 border">
-        <h1></h1>
+
+    </div>
+    <div class="row justify-content-end ms-3 me-1">
+        <div class="forecast col-9 mb-4 border">
+        <h1 class="forecast-h1"></h1>
         <ul class="list-group list-unstyled">
             <li></li>
             <li>☀️</li>
@@ -35,6 +38,8 @@
         </ul>
     </div>
     </div>
+    
+    
     <div class="row justify-content-end ms-1 me-1">
     <div class="col-9">
         <h1>5-Day Forecast:</h1>
