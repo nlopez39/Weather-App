@@ -10,6 +10,8 @@ var formEl = document.getElementById("form");
 var userInput = document.getElementById("search-bar");
 var searchBtn = document.getElementById("search-btn");
 var buttonList = document.querySelector(".list-buttons");
+var searchContainerEl = document.querySelector(".search-container");
+var listButtonsContainer = document.querySelector(".list-buttons");
 
 function findFiveDayForecast() {
   var city2 = userInput.value;
@@ -53,12 +55,15 @@ function findFiveDayForecast() {
       return forecastData;
     });
 }
-
+//-----------------------------------------Event listener for clicks on the search button-------------------//
+var storedForecastData;
+var createHistory;
 searchBtn.addEventListener("click", function () {
   findFiveDayForecast().then(function (forecastData) {
-    var createHistory = document.createElement("button");
-
+    createHistory = document.createElement("button");
+    //pull the data and loop through it
     forecastData.forEach(function (forecast, index) {
+      createHistory.setAttribute("id", forecast.name);
       createHistory.textContent = forecast.name;
       var nameContainer1 = document.querySelector(".col h1");
       if (nameContainer1) {
@@ -84,12 +89,54 @@ searchBtn.addEventListener("click", function () {
       //reset form
       formEl.reset();
 
-      var storedForecastData = JSON.parse(
+      storedForecastData = JSON.parse(
         localStorage.getItem("forecastData") || "[]"
       );
       storedForecastData.push(forecast);
+
       localStorage.setItem("forecastData", JSON.stringify(storedForecastData));
     });
+
     buttonList.appendChild(createHistory);
   });
+});
+//----------------------------------Event listener for clicks on the Search History------------------------------//
+listButtonsContainer.addEventListener("click", function (event) {
+  var clickedElement = event.target;
+  if (clickedElement.tagName === "BUTTON") {
+    for (var i = 0; i < storedForecastData.length; i++) {
+      if (storedForecastData[i + 1] || i === storedForecastData.length - 1) {
+        if (storedForecastData[i].name == clickedElement.textContent) {
+          //if its the city the user clicked in history then update the HTML TAGS
+          var nameContainer1 = document.querySelector(".col h1");
+          if (nameContainer1) {
+            nameContainer1.textContent = storedForecastData[i].name;
+          }
+          var forecastContainer = document.querySelectorAll(".forecast")[i];
+
+          if (forecastContainer) {
+            var dateContainer =
+              forecastContainer.querySelector("ul li:nth-child(1)");
+            dateContainer.textContent = "Date: " + storedForecastData[i].date;
+            var tempContainer =
+              forecastContainer.querySelector("ul li:nth-child(3)");
+            tempContainer.textContent =
+              "Temp: " + storedForecastData[i].temperature1 + "°F";
+            var windContainer =
+              forecastContainer.querySelector("ul li:nth-child(4)");
+            windContainer.textContent =
+              "Wind: " + storedForecastData[i].wind + " MPH";
+            var humContainer =
+              forecastContainer.querySelector("ul li:nth-child(5)");
+            humContainer.textContent =
+              "Humidity: " + storedForecastData[i].humidity + "%";
+
+            console.log("This is the id  " + clickedElement.textContent);
+          } else {
+            console.log("Somethign else");
+          }
+        }
+      }
+    }
+  }
 });
