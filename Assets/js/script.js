@@ -28,11 +28,12 @@ function findFiveDayForecast() {
     })
     .then(function (data) {
       console.log(data);
+      // console.log(data.list[0].weather[0].icon);
       // console.log(data.city.name);
       var forecastData = [];
       for (var i = 0; i < data.list.length; i++) {
         var dateVar = data.list[i].dt_txt.slice(0, 10);
-        console.log(dateVar);
+
         ///if we have reached the last eleement  or if data.list[i+1] an element exists or if we hit the last eleemt  && data Var !===exists first
         if (
           i === data.list.length - 1 ||
@@ -42,6 +43,7 @@ function findFiveDayForecast() {
           forecastData.push({
             name: data.city.name,
             date: dateVar,
+            icon: data.list[i].weather[0].icon,
             temperature1: parseInt(
               ((parseInt(data.list[i].main.temp) - 273.15) * 9) / 5 + 32
             ), //this will get the temperature
@@ -77,6 +79,10 @@ searchBtn.addEventListener("click", function () {
         var dateContainer =
           forecastContainer.querySelector("ul li:nth-child(1)");
         dateContainer.textContent = "Date: " + forecast.date;
+        var iconContainer = forecastContainer.querySelector(
+          "ul li:nth-child(2) img"
+        );
+        iconContainer.src = `http://openweathermap.org/img/w/${forecast.icon}.png`;
         var tempContainer =
           forecastContainer.querySelector("ul li:nth-child(3)");
         tempContainer.textContent = "Temp: " + forecast.temperature1 + "°F";
@@ -113,7 +119,7 @@ listButtonsContainer.addEventListener("click", function (event) {
       }
       if (storedForecastData[i].name == clickedElement.textContent) {
         //if its the city the user clicked in history then update the HTML TAGS
-        var nameContainer1 = document.querySelector(".col h1");
+        var nameContainer1 = document.querySelector(".forecast-h1");
 
         //changes the name header
         if (nameContainer1) {
@@ -133,6 +139,10 @@ listButtonsContainer.addEventListener("click", function (event) {
           var dateContainer =
             forecastContainer.querySelector("ul li:nth-child(1)");
           dateContainer.textContent = "Date: " + storedForecastData[i].date;
+          var iconContainer = forecastContainer.querySelector(
+            "ul li:nth-child(2) img"
+          );
+          iconContainer.src = `http://openweathermap.org/img/w/${storedForecastData[i].icon}.png`;
           var tempContainer =
             forecastContainer.querySelector("ul li:nth-child(3)");
           tempContainer.textContent =
