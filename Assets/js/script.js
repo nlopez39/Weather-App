@@ -12,6 +12,44 @@ var searchBtn = document.getElementById("search-btn");
 var buttonList = document.querySelector(".list-buttons");
 var searchContainerEl = document.querySelector(".search-container");
 var listButtonsContainer = document.querySelector(".list-buttons");
+const date = new Date();
+
+let day = date.getDate();
+let month = "0" + (date.getMonth() + 1);
+let year = date.getFullYear();
+
+// This arrangement can be altered based on how we want the date's format to appear.
+let currentDate = `${year}-${month}-${day}`;
+console.log(currentDate);
+
+function findFirstDayWeather() {
+  var city1 = userInput.value;
+
+  var weatherUrl =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city1 +
+    "&appid=" +
+    apiKey;
+  return fetch(weatherUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      var currData = [];
+      currData.push({
+        date: currentDate,
+        icon: data.weather[0].icon,
+        name: data.name,
+        temperature: parseInt(
+          ((parseInt(data.main.temp) - 273.15) * 9) / 5 + 32
+        ),
+        wind: data.wind.speed,
+        humidity: data.main.humidity,
+      });
+      return currData;
+    });
+}
 
 function findFiveDayForecast() {
   var city2 = userInput.value;
@@ -31,36 +69,76 @@ function findFiveDayForecast() {
       // console.log(data.list[0].weather[0].icon);
       // console.log(data.city.name);
       var forecastData = [];
+      var dateVar = currentDate;
       for (var i = 0; i < data.list.length; i++) {
-        var dateVar = data.list[i].dt_txt.slice(0, 10);
+        var currentData = data.list[i + 1];
+        //check if the element exists
+        if (currentData && currentData.dt_txt) {
+          var forecastDate = currentData.dt_txt.slice(0, 10);
+          console.log(forecastDate);
 
-        ///if we have reached the last eleement  or if data.list[i+1] an element exists or if we hit the last eleemt  && data Var !===exists first
-        if (
-          i === data.list.length - 1 ||
-          (data.list[i + 1] && dateVar !== data.list[i + 1].dt_txt.slice(0, 10))
-        ) {
-          // if (dateVar !== data.list[i + 1].dt_txt.slice(0, 10)) {
-          forecastData.push({
-            name: data.city.name,
-            date: dateVar,
-            icon: data.list[i].weather[0].icon,
-            temperature1: parseInt(
-              ((parseInt(data.list[i].main.temp) - 273.15) * 9) / 5 + 32
-            ), //this will get the temperature
-            //   icon: data.weather[0].icon, //gets icon
-            wind: data.list[i].wind.speed,
-            humidity: data.list[i].main.humidity,
-          });
-          // }
+          if (i === data.list.length - 1 || dateVar !== forecastDate) {
+            dateVar = forecastDate;
+            forecastData.push({
+              name: data.city.name,
+              date: dateVar,
+              icon: currentData.weather[0].icon,
+              temperature1: parseInt(
+                ((parseInt(currentData.main.temp) - 273.15) * 9) / 5 + 32
+              ),
+              wind: currentData.wind.speed,
+              humidity: currentData.main.humidity,
+            });
+
+            // dateVar = forecastDate;
+          }
         }
       }
+
       return forecastData;
     });
 }
 //-----------------------------------------Event listener for clicks on the search button-------------------//
 var storedForecastData;
+var storedWeatherData;
 var createHistory;
 searchBtn.addEventListener("click", function () {
+  findFirstDayWeather().then(function (currData) {
+    currData.forEach(function (weather, index) {
+      //this is the name header for the weather container
+      var nameContainer1 = document.querySelector(".weather-h1");
+      if (nameContainer1) {
+        nameContainer1.textContent = weather.name;
+      }
+      var weatherContainer = document.querySelectorAll(".weather")[index];
+
+      if (weatherContainer) {
+        var dateContainer =
+          weatherContainer.querySelector("ul li:nth-child(1)");
+        dateContainer.textContent = "Date: " + weather.date;
+        var iconContainer = weatherContainer.querySelector(
+          "ul li:nth-child(2) img"
+        );
+        iconContainer.src = `http://openweathermap.org/img/w/${weather.icon}.png`;
+        var tempContainer =
+          weatherContainer.querySelector("ul li:nth-child(3)");
+        tempContainer.textContent = "Temp: " + weather.temperature + "°F";
+        var windContainer =
+          weatherContainer.querySelector("ul li:nth-child(4)");
+        windContainer.textContent = "Wind: " + weather.wind + " MPH";
+        var humContainer = weatherContainer.querySelector("ul li:nth-child(5)");
+        humContainer.textContent = "Humidity: " + weather.humidity + "%";
+      }
+      storedWeatherData = JSON.parse(
+        localStorage.getItem("weatherData") || "[]"
+      );
+      storedWeatherData.push(weather);
+
+      localStorage.setItem("weatherData", JSON.stringify(storedWeatherData));
+    });
+  });
+
+  //five Day forecast
   findFiveDayForecast().then(function (forecastData) {
     createHistory = document.createElement("button");
     //pull the data and loop through it
@@ -69,10 +147,11 @@ searchBtn.addEventListener("click", function () {
       createHistory.setAttribute("class", "mb-2");
 
       createHistory.textContent = forecast.name;
-      var nameContainer1 = document.querySelector(".forecast-h1");
-      if (nameContainer1) {
-        nameContainer1.textContent = forecast.name;
-      }
+      //this is the name header for the weather container
+      // var nameContainer1 = document.querySelector(".weather-h1");
+      // if (nameContainer1) {
+      //   nameContainer1.textContent = forecast.name;
+      // }
       var forecastContainer = document.querySelectorAll(".forecast")[index];
 
       if (forecastContainer) {
@@ -106,26 +185,59 @@ searchBtn.addEventListener("click", function () {
     });
 
     buttonList.appendChild(createHistory);
-  });
+  }); //end of Five Day Forecast
 });
 //----------------------------------Event listener for clicks on the Search History------------------------------//
 listButtonsContainer.addEventListener("click", function (event) {
   var clickedElement = event.target;
   if (clickedElement.tagName === "BUTTON") {
+    //output the weather container data
+    for (var i = 0; i < storedWeatherData.length; i++) {
+      if (storedWeatherData[i].name == clickedElement.textContent) {
+        var nameContainer = document.querySelector(".weather-h1");
+        if (nameContainer) {
+          //checkmark
+          nameContainer.textContent = storedWeatherData[i].name;
+        }
+        var weatherContainer = document.querySelector(".weather");
+        if (weatherContainer) {
+          var dateContainer =
+            weatherContainer.querySelector("ul li:nth-child(1)");
+          dateContainer.textContent = "Date: " + storedWeatherData[i].date;
+          var iconContainer = weatherContainer.querySelector(
+            "ul li:nth-child(2) img"
+          );
+          iconContainer.src = `http://openweathermap.org/img/w/${storedWeatherData[i].icon}.png`;
+          var tempContainer =
+            weatherContainer.querySelector("ul li:nth-child(3)");
+          tempContainer.textContent =
+            "Temp: " + storedWeatherData[i].temperature + "°F";
+          var windContainer =
+            weatherContainer.querySelector("ul li:nth-child(4)");
+          windContainer.textContent =
+            "Wind: " + storedWeatherData[i].wind + " MPH";
+          var humContainer =
+            weatherContainer.querySelector("ul li:nth-child(5)");
+          humContainer.textContent =
+            "Humidity: " + storedWeatherData[i].humidity + "%";
+        }
+      }
+    }
+
     var j = 0;
     for (var i = 0; i < storedForecastData.length; i++) {
-      if (j == 6) {
+      if (j == 5) {
         j = 0;
       }
       if (storedForecastData[i].name == clickedElement.textContent) {
-        //if its the city the user clicked in history then update the HTML TAGS
-        var nameContainer1 = document.querySelector(".forecast-h1");
+        // //if its the city the user clicked in history then update the HTML TAGS
+        // var nameContainer1 = document.querySelector(".forecast-h1");
 
-        //changes the name header
-        if (nameContainer1) {
-          //checkmark
-          nameContainer1.textContent = storedForecastData[i].name;
-        }
+        // //changes the name header
+        // if (nameContainer1) {
+        //   //checkmark
+        //   nameContainer1.textContent = storedForecastData[i].name;
+        // }
 
         //pulls all the forecast containers
         var forecastContainer = document.querySelectorAll(".forecast")[j];
