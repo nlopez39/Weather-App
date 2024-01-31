@@ -103,6 +103,10 @@ var storedForecastData;
 var storedWeatherData;
 var createHistory;
 searchBtn.addEventListener("click", function () {
+  var hiddenItems = document.querySelectorAll(".hidden");
+  hiddenItems.forEach(function (item) {
+    item.setAttribute("style", "");
+  });
   findFirstDayWeather().then(function (currData) {
     currData.forEach(function (weather, index) {
       //this is the name header for the weather container
@@ -115,7 +119,7 @@ searchBtn.addEventListener("click", function () {
       if (weatherContainer) {
         var dateContainer =
           weatherContainer.querySelector("ul li:nth-child(1)");
-        dateContainer.textContent = "Date: " + weather.date;
+        dateContainer.textContent = weather.date;
         var iconContainer = weatherContainer.querySelector(
           "ul li:nth-child(2) img"
         );
@@ -144,7 +148,7 @@ searchBtn.addEventListener("click", function () {
     //pull the data and loop through it
     forecastData.forEach(function (forecast, index) {
       createHistory.setAttribute("id", forecast.name);
-      createHistory.setAttribute("class", "mb-2");
+      createHistory.setAttribute("class", "mb-2 btn btn-secondary");
 
       createHistory.textContent = forecast.name;
       //this is the name header for the weather container
@@ -157,7 +161,7 @@ searchBtn.addEventListener("click", function () {
       if (forecastContainer) {
         var dateContainer =
           forecastContainer.querySelector("ul li:nth-child(1)");
-        dateContainer.textContent = "Date: " + forecast.date;
+        dateContainer.textContent = forecast.date;
         var iconContainer = forecastContainer.querySelector(
           "ul li:nth-child(2) img"
         );
@@ -203,7 +207,7 @@ listButtonsContainer.addEventListener("click", function (event) {
         if (weatherContainer) {
           var dateContainer =
             weatherContainer.querySelector("ul li:nth-child(1)");
-          dateContainer.textContent = "Date: " + storedWeatherData[i].date;
+          dateContainer.textContent = storedWeatherData[i].date;
           var iconContainer = weatherContainer.querySelector(
             "ul li:nth-child(2) img"
           );
@@ -250,7 +254,7 @@ listButtonsContainer.addEventListener("click", function (event) {
           console.log("forecast containter exists /Roman/");
           var dateContainer =
             forecastContainer.querySelector("ul li:nth-child(1)");
-          dateContainer.textContent = "Date: " + storedForecastData[i].date;
+          dateContainer.textContent = storedForecastData[i].date;
           var iconContainer = forecastContainer.querySelector(
             "ul li:nth-child(2) img"
           );

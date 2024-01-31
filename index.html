@@ -8,19 +8,19 @@
     </head>
 
     <body>
-        <div class="container-fluid ">
-            <h1 class="display-4 text-center mb-4 border">☀️ Weather Dashboard ☀️</h1>
+        <div class="container-fluid bg-primary bg-gradient">
+            <h1 class="display-6 text-center text-light fw-bold mb-4 w-100 ">☀️ Weather Dashboard ☀️</h1>
         </div> 
         <div class="container-fluid">
         <div class="row ms-1 me-1">
           
-            <div class="search-container col-md-3  border " style="display: flex; flex-direction:column; ">
+            <div class="search-container col-md-3" style="display: flex; flex-direction:column; ">
             
                 <h2>Search for a City:</h2>
                 <form id="form">
                 <input type="search-bar" name="search-bar" id="search-bar" class="w-100" >
             </form>
-            <button id="search-btn" class="mb-4">Search</button>
+            <button id="search-btn" class="mb-4 mt-1 btn btn-primary">Search</button>
             <ul class="list-buttons list-unstyled" style="display: flex; flex-direction:column; ">
     
             </ul>
@@ -31,7 +31,7 @@
          
         
         <div class="col-md-9">
-            <div class="weather mb-4 border">
+            <div class="weather container-fluid mb-4 border border-info hidden" style ="display: none;">
                 <!-- weather container here -->
                 <h1 class="weather-h1"></h1>
             <ul class="list-group list-unstyled">
@@ -47,10 +47,10 @@
        
     </div> 
     <div class="row h-100 justify-content-end ms-1 me-1">
-        <div class="col-md-9">
+        <div class="col-md-9 hidden" style="display:none;">
             <h1>5-Day Forecast:</h1>
             <div class="row ">
-                <div class="forecast col me-4 border">
+                <div class="forecast col me-4 text-dark bg-info bg-gradient border">
                     <ul class="list-unstyled">
                         <li class="mt-2"></li>
                         <li><img src =  ></li>
@@ -60,7 +60,7 @@
                     </ul>
     
                 </div>
-                <div class="forecast col me-4 border">
+                <div class="forecast col me-4 text-dark  bg-info bg-gradient border">
                     <ul class="list-unstyled">
                         <li class="mt-2"></li>
                         <li><img src =  ></li>
@@ -70,7 +70,7 @@
                     </ul>
     
                 </div>
-                <div class="forecast col me-4  border">
+                <div class="forecast col me-4 text-dark  bg-info bg-gradient border">
                     <ul class="list-unstyled">
                         <li class="mt-2"> </li>
                         <li><img src = ></li>
@@ -80,7 +80,7 @@
                     </ul>
     
                 </div>
-                <div class="forecast col me-4 border">
+                <div class="forecast col me-4 text-dark  bg-info bg-gradient border">
                     <ul class="list-unstyled">
                         <li class="mt-2"> </li>
                         <li><img src = ></li>
@@ -90,7 +90,7 @@
                     </ul>
     
                 </div>
-                <div class="forecast col me-4 border">
+                <div class="forecast col me-4 text-dark  bg-info bg-gradient border">
                     <ul class="list-unstyled">
                         <li class="mt-2"></li>
                         <li><img src =  ></li>
